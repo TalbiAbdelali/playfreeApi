@@ -2,8 +2,11 @@ package com.ata.playFreeAPi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name="player")
 public class User {

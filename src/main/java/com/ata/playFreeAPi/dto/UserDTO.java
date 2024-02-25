@@ -14,4 +14,11 @@ public class UserDTO {
     private String soccerlevel;
     private boolean availablity;
 
+    public UserDTO(String pseudo, String email, String phone, String soccerlevel, boolean availablity) {
+        this.pseudo = pseudo;
+        this.email = email;
+        this.phone = phone;
+        this.soccerlevel = soccerlevel;
+        this.availablity = availablity;
+    }
 }
