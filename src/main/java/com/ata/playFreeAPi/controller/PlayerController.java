@@ -3,11 +3,10 @@ package com.ata.playFreeAPi.controller;
 import com.ata.playFreeAPi.dto.UserDTO;
 import com.ata.playFreeAPi.model.User;
 import com.ata.playFreeAPi.service.PlayerService;
-import jakarta.websocket.server.PathParam;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@Data
 public class PlayerController {
 
     @Autowired
@@ -29,11 +29,7 @@ public class PlayerController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getPlayer(@PathVariable long id) {
         Optional<User> user = playerService.getPlayer(id);
-        if(!user.isEmpty()) {
-            return ResponseEntity.ok().body(user.get());
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+        return user.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @PostMapping

@@ -1,7 +1,6 @@
 package com.ata.playFreeAPi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,14 +12,25 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name="pseudo", nullable = false)
+    @Column(name="pseudo", nullable = true)
     private String pseudo;
-    @Column(name="email", nullable = false)
+    @Column(name="email", nullable = true)
     private String email;
-    @Column(name="phone", nullable = false)
+    @Column(name="phone", nullable = true)
     private String phone;
-    @Column(name="soccerlevel", nullable = false)
+    @Column(name="soccerlevel", nullable = true)
     private String soccerlevel;
-    @Column(name="availablity", nullable = false)
+    @Column(name="availablity", nullable = true)
     private boolean availablity;
+
+    public User() {
+    }
+
+    public User(String pseudo, String email, String phone, String soccerlevel, boolean availablity) {
+        this.pseudo = pseudo;
+        this.email = email;
+        this.phone = phone;
+        this.soccerlevel = soccerlevel;
+        this.availablity = availablity;
+    }
 }
