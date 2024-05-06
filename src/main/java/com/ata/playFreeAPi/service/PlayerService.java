@@ -2,6 +2,7 @@ package com.ata.playFreeAPi.service;
 
 import com.ata.playFreeAPi.dao.PlayerRepository;
 import com.ata.playFreeAPi.dto.UserDTO;
+import com.ata.playFreeAPi.enums.Level;
 import com.ata.playFreeAPi.model.User;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,7 @@ public class PlayerService {
 
     public User addPlayer(UserDTO userdto) {
         if(userdto != null) {
-            User user = new User();
-            user.setPseudo(userdto.getPseudo());
-            user.setPhone(userdto.getPhone());
-            user.setEmail(userdto.getEmail());
-            user.setSoccerlevel(userdto.getSoccerlevel());
-            user.setAvailablity(userdto.isAvailablity());
+            User user = convertToEntity(userdto, null);
             return playerRepository.save(user);
         }
         return null;
@@ -44,14 +40,8 @@ public class PlayerService {
     public User updatePlayer(UserDTO userdto, long id) {
         if(id > -1 && userdto != null) {
             User user = playerRepository.findById(id).orElse(null);
-            if(user != null) {
-                user.setPseudo(userdto.getPseudo());
-                user.setPhone(userdto.getPhone());
-                user.setEmail(userdto.getEmail());
-                user.setSoccerlevel(userdto.getSoccerlevel());
-                user.setAvailablity(userdto.isAvailablity());
-                return playerRepository.save(user);
-            }
+            user = convertToEntity(userdto, user);
+            return playerRepository.save(user);
         }
         return null;
     }
@@ -62,5 +52,29 @@ public class PlayerService {
         } catch (Exception e) {
             throw new Exception("Player has not been deleted!");
         }
+    }
+
+    private User convertToEntity(UserDTO userdto, User user) {
+        if(user == null) {
+            user = new User();
+        }
+        user.setPseudo(userdto.getPseudo());
+        user.setPhone(userdto.getPhone());
+        user.setEmail(userdto.getEmail());
+        user.setSoccerLevel(userdto.getSoccerlevel());
+        user.setAvailable(userdto.isAvailablity());
+        return user;
+    }
+
+    private UserDTO convertToDTO(User user, UserDTO userdto) {
+        if(userdto == null) {
+            userdto = new UserDTO();
+        }
+        userdto.setPseudo(user.getPseudo());
+        userdto.setPhone(user.getPhone());
+        userdto.setEmail(user.getEmail());
+        userdto.setSoccerlevel(user.getSoccerLevel());
+        userdto.setAvailablity(user.isAvailable());
+        return userdto;
     }
 }

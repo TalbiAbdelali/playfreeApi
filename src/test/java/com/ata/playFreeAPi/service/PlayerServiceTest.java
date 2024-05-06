@@ -15,7 +15,6 @@ public class PlayerServiceTest {
     @BeforeEach
     public void setUp() {
         users = List.of(new User());
-        PlayerService playerService = new PlayerService();
     }
     @Test
     public void getPlayersOk(){
